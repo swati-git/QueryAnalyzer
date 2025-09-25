@@ -1,7 +1,8 @@
-from typing import TypedDict
-from urllib import response
+from typing import TypedDict, List
 
 
 class GraphState(TypedDict):
     query: str
-    response: str
+    llm_generated_response: str
+    documents : List[str]
+    grade: bool
