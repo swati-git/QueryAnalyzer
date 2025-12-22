@@ -22,3 +22,11 @@ AI-powered Enterprise Knowledge Management. This project builds an intelligent A
 - An employee asks "What's our vacation policy?" → Route to RAG (internal HR documents)
 - An employee asks "What are industry standard vacation policies?" → Route to web search
 - General HR questions like "How do I write a good out-of-office message?" → Direct LLM
+
+## Model Specs
+- Google Chat Model, Gemini 2.0 Flash 
+
+## Framework
+- LangChain
+ - TavilySearch for querying via web search
+ - Static Chunking 
