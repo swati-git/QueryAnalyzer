@@ -1,7 +1,10 @@
 from src.graph_state.state import GraphState
 from typing import Any, Dict
+from  src.create_vectorstore.create_vectorstore import initialize_retriever
 
-def retrieve(GraphState) -> Dict[str, Any]:
+def retrieve(state: GraphState) -> Dict[str, Any]:
+    retriever = initialize_retriever()
     print("---RETRIEVE---")
-    # Simulate a retrieved result
-    return {"response": "This is a simulated retrieved result."}
+    retrieved_docs = retriever.invoke(state["query"])
+    print(f"Retrieved {len(retrieved_docs)} documents.")
+    return {"documents": retrieved_docs}   
