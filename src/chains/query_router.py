@@ -6,12 +6,12 @@ from langchain.prompts import ChatPromptTemplate
 
 class QueryRouter(BaseModel):
 
-    source_answer_from: Literal["VECTORESTORE", "WEBSEARCH"]
+    source: Literal["VECTORESTORE", "WEBSEARCH"]
 
 system = """You are an expert at routing a user question to a vectorstore or web search.
 Given the user question, decide whether to answer from VECTORESTORE or WEBSEARCH
-Respond with a JSON object with a single field 'source_answer_from' whose value is either 'VECTORESTORE' or 'WEBSEARCH'
-The vectorstore contains documents related to agents, prompt engineering, and adversarial attacks.
+Respond with a JSON object with a single field 'source' whose value is either 'VECTORESTORE' or 'WEBSEARCH'
+The vectorstore contains documents related to NPS .
 Use the vectorstore for questions on these topics. For all else, use web-search."""
 
 prompt = ChatPromptTemplate.from_messages(
@@ -22,3 +22,5 @@ prompt = ChatPromptTemplate.from_messages(
      )
 
 query_router = prompt | llm_model.with_structured_output(QueryRouter)
+
+print("---QUERY ROUTER CHAIN INITIALIZED---")
