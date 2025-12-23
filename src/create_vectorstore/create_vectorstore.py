@@ -2,9 +2,9 @@ import os
 from langchain_community.document_loaders import  DirectoryLoader, PyPDFLoader
 from pathlib import Path
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.vectorstores import Chroma
+from langchain_community.vectorstores import  Chroma
 from dotenv import load_dotenv
-from langchain_community.embeddings import CohereEmbeddings
+from langchain_cohere import CohereEmbeddings
 from langchain.schema import Document
 
 load_dotenv()
@@ -40,6 +40,7 @@ def split_text(documents: list[Document]):
   return chunks # Return the list of split text chunks
 
 def save_to_chroma(documents: list[Document]):
+   global vectorstore
    
    vectorstore_db_path= Path(__file__).parent.parent.parent / "vectorstore_db"
 
@@ -51,4 +52,13 @@ def save_to_chroma(documents: list[Document]):
         persist_directory=str(vectorstore_db_path)
     )
    vectorstore.persist()
-   print(f"Saved {len(documents)} chunks to {vectorstore_db_path}.")
+
+def initialize_retriever():
+   retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
+   return retriever
+
+
+def initialize_vectorstore():
+    documents = load_documents()
+    split_documents = split_text(documents) 
+    save_to_chroma(split_documents)
